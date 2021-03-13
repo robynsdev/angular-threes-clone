@@ -1,0 +1,9 @@
+<div>
+  <h2 *ngIf="finalScore"></h2>
+  {{ keyPress }}
+  <main class="board">
+    <app-card *ngFor="let val of cards; let i = index" [value]="val"></app-card>
+  </main>
+
+  <button class="new-game-button" (click)="newGame()">PLAY THREES</button>
+</div>

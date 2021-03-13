@@ -1,0 +1,13 @@
+.card {
+  width: 8vw;
+  height: 11vw;
+  margin: 5px;
+  display: flex;
+  background-color: rgb(252, 234, 211);
+  span {
+    justify-self: center;
+    align-self: center;
+    width: 100%;
+    font-size: 10vw;
+  }
+}

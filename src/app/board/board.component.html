@@ -5,5 +5,7 @@
     <app-card *ngFor="let val of cards; let i = index" [value]="val"></app-card>
   </main>
 
-  <button class="new-game-button" (click)="newGame()">PLAY THREES</button>
+  <div class="new-game-btn-container">
+    <button class="new-game-btn" (click)="newGame()">PLAY THREES</button>
+  </div>
 </div>

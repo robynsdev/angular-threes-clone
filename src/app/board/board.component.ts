@@ -7,7 +7,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
   keyPress: any;
-  cards: number[] = [3, 6, 12];
+  cards: number[] = [3, 6, 12, 24, 48, 96, 192, 384, 768, 1536, 3072, 6144];
   finalScore: number;
 
   @HostListener('window:keyup', ['$event'])

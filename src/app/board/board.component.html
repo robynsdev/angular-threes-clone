@@ -1,7 +1,7 @@
-<div>
+<div class="board-container" fxLayout="column" fxLayoutAlign="center center">
   <h2 *ngIf="finalScore"></h2>
   {{ keyPress }}
-  <main class="board">
+  <main class="board" fxLayout="row [wrap]" fxLayoutAlign="center center">
     <app-card *ngFor="let val of cards; let i = index" [value]="val"></app-card>
   </main>
 

@@ -8,7 +8,9 @@ import { GameService } from 'src/app/game.service';
 })
 export class BoardComponent implements OnInit {
   keyPress: string;
-  cards: number[] = [
+  moved: boolean = false; //condition for gameover. true whenever card combined or position overwritten.
+  finalScore: number;
+  cards: any[] = [
     3,
     6,
     12,
@@ -26,7 +28,6 @@ export class BoardComponent implements OnInit {
     49152,
     98304,
   ];
-  finalScore: number;
 
   constructor(private gameService: GameService) {}
 
@@ -43,17 +44,16 @@ export class BoardComponent implements OnInit {
       this.keyPress = event.key; //not needed just push to dom
       this.gameService.setKey(event.key);
       this.turn();
-      this.gameOver();
+      this.isGameOver();
     }
   }
 
   newGame() {
     // this.cards = Array(16).fill(null);
-    this.cards = [0, 1, 2, 3, 4, 5, null, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+    this.cards = ['zero', 1, 2, 3, 4, 5, null, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   }
 
   turn() {
-    // keypress
     // move numbers in array
     // switch statement
     // up = all index except 0-3 has to -4
@@ -65,9 +65,10 @@ export class BoardComponent implements OnInit {
 
   merge() {
     // if same number or 1, 2 add
+    // if no merge && cards no null gameOver()
   }
 
-  gameOver() {
+  isGameOver() {
     // no possible moves
   }
 }

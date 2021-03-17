@@ -1,8 +1,16 @@
 @import "~@angular/flex-layout/mq";
 
-.board-container {
+.container {
+  .board-shadow {
+    border-radius: 15px;
+    box-shadow: 0px -10px rgb(25, 26, 31);
+  }
   .board {
-    width: 370px;
+    width: 330px;
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgb(62, 64, 79);
+    box-shadow: 0px 13px rgb(62, 64, 79);
   }
   .new-game-btn-container {
     .new-game-btn {
@@ -13,11 +21,11 @@
       letter-spacing: 5px;
       text-align: center;
       font-family: "Fredoka One", cursive;
-      border-radius: 5px;
-      width: 350px;
-      margin: 20px 0;
+      border-radius: 10px;
+      width: 330px;
+      margin: 30px 0;
       padding: 10px;
-      font-size: 38px;
+      font-size: 36px;
       outline: none;
       cursor: pointer;
     }

@@ -1,14 +1,16 @@
 <div class="container" fxLayout="column" fxLayoutAlign="center center">
-  <h2 *ngIf="finalScore"></h2>
+  <!-- <h2 *ngIf="finalScore"></h2> -->
   {{ keyPress }}
 
-  <div class="board-shadow">
-    <main class="board" fxLayout="row [wrap]" fxLayoutAlign="center center">
-      <app-card
-        *ngFor="let val of cards; let i = index"
-        [value]="val"
-      ></app-card>
-    </main>
+  <div class="bottomboard">
+    <div class="board-shadow">
+      <main class="board" fxLayout="row [wrap]" fxLayoutAlign="center center">
+        <app-card
+          *ngFor="let val of cards; let i = index"
+          [value]="val"
+        ></app-card>
+      </main>
+    </div>
   </div>
 
   <div class="new-game-btn-container">

@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { GameService } from 'src/app/game.service';
 
 @Component({
   selector: 'app-board',
@@ -8,20 +7,20 @@ import { GameService } from 'src/app/game.service';
 })
 export class BoardComponent implements OnInit {
   keyPress: string;
-  boardside: any = {
+  randomCard: number[];
+
+  // lose condition
+  moved: number = 0;
+  boardEdge: number[] = [0, 1, 2, 3, 4, 7, 8, 11, 12, 13, 14, 15];
+
+  // board setup
+  boardSide: any = {
     up: [0, 1, 2, 3],
     down: [12, 13, 14, 15],
     left: [0, 4, 8, 12],
     right: [3, 7, 11, 15],
   };
-  // up: number[] = [0, 1, 2, 3];
-  // down: number[] = [12, 13, 14, 15];
-  // left: number[] = [0, 4, 8, 12];
-  // right: number[] = [3, 7, 11, 15];
-
-  moved: boolean = false; //condition for gameover. true whenever card combined or position overwritten.
-  finalScore: number; // sum of cards on board
-  cards: number[] = [
+  gameCards: number[] = [
     3,
     6,
     12,
@@ -39,9 +38,9 @@ export class BoardComponent implements OnInit {
     49152,
     98304,
   ];
-  changedCards: number[];
+  cards: number[] = this.gameCards;
 
-  constructor(private gameService: GameService) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
@@ -53,8 +52,6 @@ export class BoardComponent implements OnInit {
       event.key === 'ArrowLeft' ||
       event.key === 'ArrowRight'
     ) {
-      // this.keyPress = event.key; //not needed just push to dom
-      // this.gameService.setKey(event.key);
       this.turn(event.key);
       this.isGameOver();
     }
@@ -62,54 +59,88 @@ export class BoardComponent implements OnInit {
 
   newGame() {
     // this.cards = Array(16).fill(null);
-    this.cards = [20, null, 2, 3, 4, 5, null, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-    this.changedCards = Array(16).fill(0);
+    // this.cards = [20, 0, 2, 3, 4, 5, 0, 7, 8, 9, 0, 11, 12, 13, 0, 15];
+    this.cards = [1, 2, 2, 12, 24, 0, 0, 0, 6, 0, 0, 0, 0, 1, 0, 2];
   }
 
   turn(keyPress: string) {
-    switch (keyPress) {
-      case 'ArrowUp':
-        for (let i = 0; i < this.cards.length; i++) {
-          // when cards equal
-          if (this.cards[i] === this.cards[i + 4] && i < 12) {
-            this.cards[i] += this.cards[i + 4];
-            this.changedCards[i + 4] = 1;
-            // when space is null
-          } else if (this.cards[i] === null && i < 12) {
-            this.cards[i] = this.cards[i + 4];
-            this.changedCards[i + 4] = 1;
-            // when end row has been moved
-          } else if (this.changedCards[i] === 1) {
-            this.cards[i] = null;
-          }
-        }
-        this.changedCards = Array(16).fill(0);
-        console.log(this.cards);
-        console.log(this.changedCards);
-        break;
-      case 'ArrowDown':
-        break;
-      case 'ArrowLeft':
-        break;
-      case 'ArrowRight':
-        break;
-      default:
-    }
-    // move numbers in array
-    // switch statement
     // up = all index except 0-3 has to -4
     // down = all index except 12-15 has to +4
     // left = all index except 0,4,8,12 has to -1
     // right = all index except 3,7,11,15 has to +1
-    this.merge();
+    switch (keyPress) {
+      case 'ArrowUp':
+        this.boardcalc(this.boardSide.up, 4);
+        this.addRandomCard(this.boardSide.down);
+        break;
+
+      case 'ArrowDown':
+        this.boardcalc(this.boardSide.down, -4);
+        this.addRandomCard(this.boardSide.up);
+        break;
+
+      case 'ArrowLeft':
+        this.boardcalc(this.boardSide.left, 1);
+        this.addRandomCard(this.boardSide.right);
+        break;
+
+      case 'ArrowRight':
+        this.boardcalc(this.boardSide.right, -1);
+        this.addRandomCard(this.boardSide.left);
+        break;
+
+      default:
+        break;
+    }
   }
 
-  merge() {
-    // if same number or 1, 2 add
-    // if no merge && cards no null gameOver()
+  boardcalc(boardSide: number[], direction: number) {
+    let rowMoved: boolean = false;
+    // iterate through first 3 cards of each row
+    // if can merge, merge
+    // merge == 1. same card greater than 2, 2. null origin, 3. if add to 3
+    // if rowMoved is true, move rest of row, break
+
+    for (let i of boardSide) {
+      for (let j = 0; j < 3; j++) {
+        let index = i + direction * j;
+        if (rowMoved === false) {
+          if (
+            (this.cards[index] === this.cards[index + direction] &&
+              this.cards[index] > 2) ||
+            this.cards[index] === 0 ||
+            this.cards[index] + this.cards[index + direction] === 3
+          ) {
+            this.cards[index] += this.cards[index + direction];
+            rowMoved = true;
+          }
+        } else if (rowMoved === true) {
+          this.cards[index] = this.cards[index + direction];
+        }
+      }
+      if (rowMoved === true) {
+        this.cards[i + direction * 3] = 0;
+      }
+      rowMoved = false;
+    }
+  }
+
+  createRandomCard() {}
+
+  addRandomCard(edge: number[]) {
+    let zeroEdge: number[] = [];
+    for (let x of edge) {
+      if (this.cards[x] === 0) {
+        zeroEdge.push(x);
+      }
+    }
+    let fillidx: number = zeroEdge[Math.floor(Math.random() * zeroEdge.length)];
+
+    this.cards[fillidx] = 3;
   }
 
   isGameOver() {
+    // let finalScore = this.cards.reduce(())
     // no possible moves = no merge and no null cards
   }
 }

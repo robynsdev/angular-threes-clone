@@ -10,8 +10,9 @@ export class BoardComponent implements OnInit {
   randomCard: number[];
 
   // lose condition
-  moved: number = 0;
+  moved: boolean = false;
   boardEdge: number[] = [0, 1, 2, 3, 4, 7, 8, 11, 12, 13, 14, 15];
+  score: number;
 
   // board setup
   boardSide: any = {
@@ -113,6 +114,7 @@ export class BoardComponent implements OnInit {
           ) {
             this.cards[index] += this.cards[index + direction];
             rowMoved = true;
+            this.moved = true;
           }
         } else if (rowMoved === true) {
           this.cards[index] = this.cards[index + direction];
@@ -139,8 +141,17 @@ export class BoardComponent implements OnInit {
     this.cards[fillidx] = 3;
   }
 
+  // game over when no possible moves = no merge and no null cards
   isGameOver() {
-    // let finalScore = this.cards.reduce(())
-    // no possible moves = no merge and no null cards
+    let noNull: number = 0;
+    for (let x of this.boardEdge) {
+      if (this.cards[x] !== 0) {
+        noNull++;
+      }
+    }
+    if (this.moved === false || noNull === 0) {
+      this.score = this.cards.reduce((total, amt) => total + amt);
+    }
+    this.moved = false;
   }
 }

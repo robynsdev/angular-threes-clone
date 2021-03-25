@@ -40,7 +40,9 @@ export class BoardComponent implements OnInit {
     98304,
   ];
   cards: number[] = this.gameCards;
-  randomCardAry: number[] = [1, 2];
+  cardsMax: number = Math.max(...this.cards);
+  randomCardAry: number[] = [1, 1, 2, 2, 3, 3, 3, 3, 6];
+  nextCard: number[] = [];
 
   constructor() {}
 
@@ -63,7 +65,16 @@ export class BoardComponent implements OnInit {
   newGame() {
     // this.cards = Array(16).fill(null);
     // this.cards = [20, 0, 2, 3, 4, 5, 0, 7, 8, 9, 0, 11, 12, 13, 0, 15];
+    this.pickRandomCard();
     this.cards = [1, 2, 2, 12, 24, 0, 0, 0, 6, 0, 0, 0, 0, 1, 0, 2];
+    this.shuffleCards(this.cards);
+  }
+
+  shuffleCards(array: number[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
   }
 
   turn(keyPress: string) {
@@ -117,6 +128,12 @@ export class BoardComponent implements OnInit {
             this.cards[index] += this.cards[index + direction];
             rowMoved = true;
             this.moved = true;
+            // add new max - 2 to random cards
+            if (this.cards[index] > this.cardsMax) {
+              this.cardsMax = this.cards[index];
+              let maxIdx = this.gameCards.findIndex((e) => e === this.cardsMax);
+              this.randomCardAry.push(this.gameCards[maxIdx - 2]);
+            }
           }
         } else if (rowMoved === true) {
           this.cards[index] = this.cards[index + direction];
@@ -129,13 +146,10 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  createRandomCard() {
-    let currentMax: number = Math.max(...this.cards);
-    let randCardMax: number = Math.max(...this.randomCardAry);
-    let maxIdx: number = this.cards.findIndex((e) => e === currentMax);
-    for (let i = 0; i < maxIdx - 2; i++) {
-      this.randomCardAry.push(this.cards[i]);
-    }
+  pickRandomCard() {
+    this.nextCard.push(
+      this.randomCardAry[Math.floor(Math.random() * this.randomCardAry.length)]
+    );
   }
 
   addRandomCard(edge: number[]) {
@@ -147,7 +161,9 @@ export class BoardComponent implements OnInit {
     }
     let fillidx: number = zeroEdge[Math.floor(Math.random() * zeroEdge.length)];
 
-    this.cards[fillidx] = 3;
+    let thisCard = this.nextCard.shift();
+    this.cards[fillidx] = thisCard;
+    this.pickRandomCard();
   }
 
   // game over when no possible moves = no merge and no null cards

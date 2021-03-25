@@ -40,11 +40,13 @@ export class BoardComponent implements OnInit {
     98304,
   ];
   cards: number[] = this.gameCards;
+  randomCardAry: number[] = [1, 2];
 
   constructor() {}
 
   ngOnInit(): void {}
 
+  // find a way to start and stop listener
   @HostListener('window:keyup', ['$event'])
   handleKeyUp(event: KeyboardEvent) {
     if (
@@ -127,7 +129,14 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  createRandomCard() {}
+  createRandomCard() {
+    let currentMax: number = Math.max(...this.cards);
+    let randCardMax: number = Math.max(...this.randomCardAry);
+    let maxIdx: number = this.cards.findIndex((e) => e === currentMax);
+    for (let i = 0; i < maxIdx - 2; i++) {
+      this.randomCardAry.push(this.cards[i]);
+    }
+  }
 
   addRandomCard(edge: number[]) {
     let zeroEdge: number[] = [];
@@ -142,6 +151,7 @@ export class BoardComponent implements OnInit {
   }
 
   // game over when no possible moves = no merge and no null cards
+  // this.moved === false not a good way to determine game over. player may do "wrong" move but other moves still possible.
   isGameOver() {
     let noNull: number = 0;
     for (let x of this.boardEdge) {

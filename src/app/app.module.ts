@@ -10,9 +10,10 @@ import { CardComponent } from './card/card.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
+import { NextcardComponent } from './header/nextcard/nextcard.component';
 
 @NgModule({
-  declarations: [AppComponent, BoardComponent, HeaderComponent, CardComponent],
+  declarations: [AppComponent, BoardComponent, HeaderComponent, CardComponent, NextcardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

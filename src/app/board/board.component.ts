@@ -160,9 +160,7 @@ export class BoardComponent implements OnInit {
       }
     }
     let fillidx: number = zeroEdge[Math.floor(Math.random() * zeroEdge.length)];
-
-    let thisCard = this.nextCard.shift();
-    this.cards[fillidx] = thisCard;
+    this.cards[fillidx] = this.nextCard.shift();
     this.pickRandomCard();
   }
 

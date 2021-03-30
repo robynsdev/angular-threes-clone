@@ -11,6 +11,16 @@
       </main>
     </div>
   </div>
+  <div class="topboard">
+    <div class="board-shadow">
+      <main class="board" fxLayout="row [wrap]" fxLayoutAlign="center center">
+        <app-card
+          *ngFor="let val of cards; let i = index"
+          [value]="val"
+        ></app-card>
+      </main>
+    </div>
+  </div>
 
   <div class="new-game-btn-container">
     <button class="new-game-btn" (click)="newGame()">PLAY THREES</button>

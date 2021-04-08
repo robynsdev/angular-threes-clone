@@ -2,6 +2,18 @@
   display: flex;
 }
 
-.header-btn-container {
+.header-btn {
+  background-color: rgb(62, 55, 106);
+  box-shadow: 0px 10px rgb(29, 26, 53);
+  color: white;
+  border: none;
+  letter-spacing: 5px;
+  text-align: center;
+  font-family: "Fredoka One", cursive;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 10px 18px;
+  font-size: 24px;
   outline: none;
+  cursor: pointer;
 }

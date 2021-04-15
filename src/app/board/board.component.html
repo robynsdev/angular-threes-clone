@@ -1,4 +1,4 @@
-<div class="container" fxLayout="column" fxLayoutAlign="center center">
+<div class="board-container" fxLayout="column" fxLayoutAlign="center center">
   <h2 *ngIf="score" class="gameover">Game Over! Your score is {{ score }}.</h2>
 
   <div class="bottomboard">
@@ -11,7 +11,7 @@
       </main>
     </div>
   </div>
-  <div class="topboard">
+  <!-- <div class="topboard">
     <div class="board-shadow">
       <main class="board" fxLayout="row [wrap]" fxLayoutAlign="center center">
         <app-card
@@ -20,7 +20,7 @@
         ></app-card>
       </main>
     </div>
-  </div>
+  </div> -->
 
   <div class="new-game-btn-container">
     <button class="new-game-btn" (click)="newGame()">PLAY THREES</button>

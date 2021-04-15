@@ -10,6 +10,7 @@ export class BoardComponent implements OnInit {
   randomCard: number[];
 
   // lose condition
+  isGame: boolean = false;
   moved: boolean = false;
   boardEdge: number[] = [0, 1, 2, 3, 4, 7, 8, 11, 12, 13, 14, 15];
   score: number;

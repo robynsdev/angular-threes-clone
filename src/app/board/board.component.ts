@@ -43,7 +43,7 @@ export class BoardComponent implements OnInit {
   cards: number[] = this.gameCards;
   cardsMax: number = Math.max(...this.cards);
   randomCardAry: number[] = [1, 1, 2, 2, 3, 3, 3, 3, 6];
-  nextCard: number[] = [];
+  nextCard: number;
 
   constructor() {}
 
@@ -148,20 +148,22 @@ export class BoardComponent implements OnInit {
   }
 
   pickRandomCard() {
-    this.nextCard.push(
-      this.randomCardAry[Math.floor(Math.random() * this.randomCardAry.length)]
-    );
+    this.nextCard = this.randomCardAry[
+      Math.floor(Math.random() * this.randomCardAry.length)
+    ];
   }
 
   addRandomCard(edge: number[]) {
+    // find all edges without a card
     let zeroEdge: number[] = [];
     for (let x of edge) {
       if (this.cards[x] === 0) {
         zeroEdge.push(x);
       }
     }
+    // choose random edge without card and change to nextCard value
     let fillidx: number = zeroEdge[Math.floor(Math.random() * zeroEdge.length)];
-    this.cards[fillidx] = this.nextCard.shift();
+    this.cards[fillidx] = this.nextCard;
     this.pickRandomCard();
   }
 

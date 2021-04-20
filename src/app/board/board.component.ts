@@ -66,6 +66,7 @@ export class BoardComponent implements OnInit {
   newGame() {
     // this.cards = Array(16).fill(null);
     // this.cards = [20, 0, 2, 3, 4, 5, 0, 7, 8, 9, 0, 11, 12, 13, 0, 15];
+    this.isGame = true;
     this.pickRandomCard();
     this.cards = [1, 2, 2, 12, 24, 0, 0, 0, 6, 0, 0, 0, 0, 1, 0, 2];
     this.shuffleCards(this.cards);
@@ -178,6 +179,7 @@ export class BoardComponent implements OnInit {
     }
     if (this.moved === false || noNull === 0) {
       this.score = this.cards.reduce((total, amt) => total + amt);
+      this.isGame = false;
     }
     this.moved = false;
   }
